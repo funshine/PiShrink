@@ -119,6 +119,7 @@ else
   exit
 fi
 }
+sudo mount -o remount,rw / ; sudo mount -o remount,rw /boot
 raspi_config_expand
 echo "WARNING: Using backup expand..."
 sleep 5
