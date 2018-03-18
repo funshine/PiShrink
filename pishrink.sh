@@ -114,6 +114,7 @@ raspi_config_expand() {
 if [[ $? != 0 ]]; then
   return -1
 else
+  resize2fs /dev/$ROOT_PART
   rm -f /etc/rc.local; cp -f /etc/rc.local.bak /etc/rc.local; /etc/rc.local
   reboot
   exit
