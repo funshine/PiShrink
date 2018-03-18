@@ -110,6 +110,7 @@ reboot
 exit
 }
 raspi_config_expand() {
+ROOT_PART=$(mount | sed -n 's|^/dev/\(.*\) on / .*|\1|p')
 /usr/bin/env raspi-config --expand-rootfs
 if [[ $? != 0 ]]; then
   return -1
