@@ -115,8 +115,14 @@ ROOT_PART=$(mount | sed -n 's|^/dev/\(.*\) on / .*|\1|p')
 if [[ $? != 0 ]]; then
   return -1
 else
-  resize2fs /dev/$ROOT_PART
-  rm -f /etc/rc.local; cp -f /etc/rc.local.bak /etc/rc.local; /etc/rc.local
+  cat <<EOF > /etc/rc.local &&
+#!/bin/sh
+sudo mount -o remount,rw / ; sudo mount -o remount,rw /boot
+echo "Expanding /dev/$ROOT_PART"
+resize2fs /dev/$ROOT_PART
+rm -f /etc/rc.local; cp -f /etc/rc.local.bak /etc/rc.local; reboot
+
+EOF
   reboot
   exit
 fi
